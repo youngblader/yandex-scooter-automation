@@ -1,5 +1,6 @@
 package pages;
 
+import models.OrderData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
@@ -96,7 +97,8 @@ public class OrderPage {
 
     public boolean isSuccessOrderModalDisplayed() {
         try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(successOrderModal)).isDisplayed();
+             wait.until(ExpectedConditions.visibilityOfElementLocated(successOrderModal));
+             return true;
         } catch (TimeoutException e) {
             return false;
         }
@@ -110,30 +112,30 @@ public class OrderPage {
        wait.until(ExpectedConditions.visibilityOfElementLocated(secondOrderContentSection));
     }
 
-    public void fillCustomerInfo(String name, String surname, String address, String subway, String phone) {
-        setName(name);
-        setSurname(surname);
-        setAddress(address);
-        setSubway(subway);
-        setPhone(phone);
+    public void fillCustomerInfo(OrderData data) {
+        setName(data.name());
+        setSurname(data.surname());
+        setAddress(data.address());
+        setSubway(data.subway());
+        setPhone(data.phone());
 
         clickNextButton();
     }
 
-    public void fillRentInfo(String date, String period, String color, String comment) {
-        setDate(date);
-        setPeriodDays(period);
-        setColor(color);
-        setComment(comment);
+    public void fillRentInfo(OrderData data) {
+        setDate(data.date());
+        setPeriodDays(data.period());
+        setColor(data.color().id());
+        setComment(data.comment());
 
         clickOrderButton();
         clickConfirmOrderButton();
     }
 
-    public void completeOrder(String name, String surname, String address, String subway, String phone, String date, String period, String color, String comment) {
+    public void completeOrder(OrderData data) {
         waitForFirstOrderContentSection();
-        fillCustomerInfo(name, surname, address, subway, phone);
+        fillCustomerInfo(data);
         waitForSecondOrderContentSection();
-        fillRentInfo(date, period, color, comment);
+        fillRentInfo(data);
     }
 }

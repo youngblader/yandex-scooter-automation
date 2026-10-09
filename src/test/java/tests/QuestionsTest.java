@@ -19,7 +19,7 @@ public class QuestionsTest extends BaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("AnswersData")
+    @MethodSource("answersData")
     void checkAnswerVisibility(int index, String expectedAnswer) {
         homePage.clickQuestion(index);
         String actualAnswer = homePage.getAnswerText(index);
@@ -27,7 +27,7 @@ public class QuestionsTest extends BaseTest {
         assertEquals(expectedAnswer, actualAnswer, "Соответствующий текст не совпадает");
     }
 
-    static Stream<Arguments> AnswersData() {
+    static Stream<Arguments> answersData() {
         return Stream.of(
                 Arguments.of(0, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."),
                 Arguments.of(1, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."),

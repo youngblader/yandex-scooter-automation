@@ -1,5 +1,7 @@
 package tests;
 
+import models.Color;
+import models.OrderData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -29,46 +31,30 @@ public class OrderTest extends BaseTest {
 
     @ParameterizedTest
     @MethodSource("orderData")
-    void successOrderTopButton(String name, String surname, String address, String subway, String phone, String date, String period, String color, String comment) {
+    void successOrderTopButton(OrderData data) {
         homePage.clickTopOrderButton();
-        orderPage.completeOrder(name, surname, address, subway, phone, date, period, color, comment);
+        orderPage.completeOrder(data);
 
         assertTrue(orderPage.isSuccessOrderModalDisplayed(), "Сообщение об успешном заказе не отображается");
     }
 
     @ParameterizedTest
     @MethodSource("orderData")
-    void successOrderBottomButton(String name, String surname, String address, String subway, String phone, String date, String period, String color, String comment) {
+    void successOrderBottomButton(OrderData data) {
         homePage.clickBottomOrderButton();
-        orderPage.completeOrder(name, surname, address, subway, phone, date, period, color, comment);
+        orderPage.completeOrder(data);
 
         assertTrue(orderPage.isSuccessOrderModalDisplayed(), "Сообщение об успешном заказе не отображается");
     }
 
     private static Stream<Arguments> orderData() {
         return Stream.of(
-                Arguments.of(
-                        "Андрей",
-                        "Богомолов",
-                        "Московская",
-                        "Лубянка",
-                        "+79912328382",
-                        "16.07.2026",
-                        "двое суток",
-                        "black",
-                        "Не звонить"
-                ),
-                Arguments.of(
-                        "Екатерина",
-                        "Высоцкая",
-                        "Питерская",
-                        "Комсомольская",
-                        "+79912371829",
-                        "16.07.2026",
-                        "сутки",
-                        "grey",
-                        "Звонить днем"
-                )
+                Arguments.of(new OrderData(
+                        "Андрей", "Богомолов", "Московская", "Лубянка",
+                        "+79912328382", "16.07.2026", "двое суток", Color.BLACK, "Не звонить")),
+                Arguments.of(new OrderData(
+                        "Екатерина", "Высоцкая", "Питерская", "Комсомольская",
+                        "+79912371829", "16.07.2026", "сутки", Color.GREY, "Звонить днем"))
         );
     }
 }
